@@ -1,11 +1,32 @@
 # Financial stats calculator, for budgeting
+import json
 
-weekly_pay = 450
-times_paid = 17
-weekly_tuition_pay = 275
-weekly_family_pay = 175
-semester_cost = 4500
-semester_count = 6
+savefile = 'saves/savefile.json'
+try:
+    with open(savefile) as saves:
+        user_info = json.load(saves)
+except FileNotFoundError:
+    user_info = {
+
+        'Weekly Pay': 450,
+        'Times Paid': 17,
+        'Weekly Tuition Pay': 275,
+        'Weekly Family Pay': 175,
+        'Semester Cost': 4500,
+        'Current Semester Count': 6
+    }
+    with open(savefile, 'w') as saves:
+        json.dump(user_info, saves)
+    print("Save contents initialized.\n")
+else:
+    print("Save contents loaded.\n")
+
+weekly_pay = user_info['Weekly Pay']
+times_paid = user_info['Times Paid']
+weekly_tuition_pay = user_info['Weekly Tuition Pay']
+weekly_family_pay = user_info['Weekly Family Pay']
+semester_cost = user_info['Semester Cost']
+semester_count = user_info['Current Semester Count']
 
 total_cost = semester_cost * semester_count
 current_total_tuition_pay = weekly_tuition_pay * times_paid
