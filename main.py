@@ -9,7 +9,7 @@ except FileNotFoundError:
     user_info = {
 
         'Weekly Pay': 450,
-        'Times Paid': 17,
+        'Times Paid': 0,
         'Weekly Tuition Pay': 275,
         'Weekly Family Pay': 175,
         'Semester Cost': 4500,
@@ -17,7 +17,8 @@ except FileNotFoundError:
     }
     with open(savefile, 'w') as saves:
         json.dump(user_info, saves)
-    print("Save contents initialized.\n")
+    print("Basic save contents initialized.\n")
+    user_info['Times Paid'] = int(input("Please enter current amount of times paid: "))
 else:
     print("Save contents loaded.\n")
 
@@ -42,11 +43,15 @@ print("'q' -> quit")
 print("'1' -> show total paid for tuition")
 print("'2' -> show amount due for the semester")
 print("'3' -> show amount due for university years")
+print("'4' -> add a week of payment")
 
 while True:
     selection = input("Select an option by typing a command: ")
     
     if selection == 'q':
+        with open(savefile, 'w') as newsave:
+            user_info = json.dump(user_info, newsave)
+        print("Entries saved. Program exiting.")
         break
     elif selection == '1':
         print(f"\nTotal paid for so far: ${current_amount_paid}\n") 
@@ -54,6 +59,10 @@ while True:
         print(f"\nTotal amount due for semester: ${semester_amount_due}\n") 
     elif selection == '3':
         print(f"\nAmount due for university: ${total_amount_due}\n") 
+    elif selection == '4':
+        times_paid += 1
+        user_info['Times Paid'] = times_paid
+        print(f"\nOne week of pay submitted. Total weeks paid: {times_paid}\n") 
     else:
         print("\nInvalid command.\n")
 
