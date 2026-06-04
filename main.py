@@ -43,7 +43,8 @@ print("'q' -> quit")
 print("'1' -> show total paid for tuition")
 print("'2' -> show amount due for the semester")
 print("'3' -> show amount due for university years")
-print("'4' -> add a week of payment")
+print("'4' -> show number of weeks paid")
+print("'5' -> add a week of payment")
 
 while True:
     selection = input("Select an option by typing a command: ")
@@ -60,6 +61,8 @@ while True:
     elif selection == '3':
         print(f"\nAmount due for university: ${total_amount_due}\n") 
     elif selection == '4':
+        print(f"\nTotal weeks of payment: {times_paid}\n") 
+    elif selection == '5':
         times_paid += 1
         user_info['Times Paid'] = times_paid
         print(f"\nOne week of pay submitted. Total weeks paid: {times_paid}\n") 
