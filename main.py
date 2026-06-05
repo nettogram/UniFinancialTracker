@@ -42,23 +42,27 @@ def refresh_stats(user_info):
     
     return refreshed_stats
 
+def list_commands():
+    print("\nList of commands: ")
+    print("'q' -> quit")
+    print("'1' -> show total paid for tuition")
+    print("'2' -> show amount due for the semester")
+    print("'3' -> show amount due for university years")
+    print("'4' -> show number of weeks paid")
+    print("'5' -> add a week of payment")
+    print("'6' -> show commands")
+
 current_stats = refresh_stats(user_info)
 
-print("List of commands: ")
-print("'q' -> quit")
-print("'1' -> show total paid for tuition")
-print("'2' -> show amount due for the semester")
-print("'3' -> show amount due for university years")
-print("'4' -> show number of weeks paid")
-print("'5' -> add a week of payment")
+list_commands()
 
 while True:
-    selection = input("Select an option by typing a command: ")
+    selection = input("\nSelect an option by typing a command: ")
     
     if selection == 'q':
         with open(savefile, 'w') as newsave:
             user_info = json.dump(user_info, newsave)
-        print("Entries saved. Program exiting.")
+        print("Program exiting.")
         break
     elif selection == '1':
         print(f"\nTotal paid for so far: ${current_stats['Tuition Paid']}\n") 
@@ -72,6 +76,8 @@ while True:
         user_info['Times Paid'] += 1
         current_stats = refresh_stats(user_info)
         print(f"\nOne week of pay submitted. Total weeks paid: {user_info['Times Paid']}\n") 
+    elif selection == '6':
+        list_commands()
     else:
         print("\nInvalid command.\n")
 
