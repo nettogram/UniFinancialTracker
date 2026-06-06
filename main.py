@@ -1,5 +1,6 @@
 # Financial stats calculator, for budgeting
 import json
+from rich import print
 
 savefile = 'saves/savefile.json'
 try:
@@ -17,10 +18,10 @@ except FileNotFoundError:
     }
     with open(savefile, 'w') as saves:
         json.dump(user_info, saves)
-    print("Basic save contents initialized.\n")
+    print("\n[italic green]Basic save contents initialized.[/italic green]")
     user_info['Times Paid'] = int(input("Please enter current amount of times paid: "))
 else:
-    print("Save contents loaded.\n")
+    print("\n[italic green]Save contents loaded.[/italic green]")
 
 def refresh_stats(user_info):
 
@@ -43,14 +44,14 @@ def refresh_stats(user_info):
     return refreshed_stats
 
 def list_commands():
-    print("\nList of commands: ")
-    print("'q' -> quit")
-    print("'1' -> show total paid for tuition")
-    print("'2' -> show amount due for the semester")
-    print("'3' -> show amount due for university years")
-    print("'4' -> show number of weeks paid")
-    print("'5' -> add a week of payment")
-    print("'6' -> show commands")
+    print("\nList of commands: \n")
+    print("\t'q' -> quit")
+    print("\t'1' -> show total paid for tuition")
+    print("\t'2' -> show amount due for the semester")
+    print("\t'3' -> show amount due for university years")
+    print("\t'4' -> show number of weeks paid")
+    print("\t'5' -> add a week of payment")
+    print("\t'6' -> show commands")
 
 current_stats = refresh_stats(user_info)
 
@@ -62,23 +63,24 @@ while True:
     if selection == 'q':
         with open(savefile, 'w') as newsave:
             user_info = json.dump(user_info, newsave)
-        print("Program exiting.")
+        print("\n[italic]Program exiting.[/italic]")
         break
     elif selection == '1':
-        print(f"\nTotal paid for so far: ${current_stats['Tuition Paid']}\n") 
+        print(f"\nTotal paid for so far: [yellow]${current_stats['Tuition Paid']}[/yellow]\n") 
     elif selection == '2':
-        print(f"\nTotal amount due for semester: ${current_stats['Semester Amount Due']}\n") 
+        print(f"\nTotal amount due for semester: [red]${current_stats['Semester Amount Due']}[/red]\n") 
     elif selection == '3':
-        print(f"\nAmount due for university: ${current_stats['Total Amount Due']}\n") 
+        print(f"\nAmount due for university: [red]${current_stats['Total Amount Due']}[/red]\n") 
     elif selection == '4':
-        print(f"\nTotal weeks of payment: {user_info['Times Paid']}\n") 
+        print(f"\nTotal weeks of payment: [green]{user_info['Times Paid']}[/green]\n") 
     elif selection == '5':
         user_info['Times Paid'] += 1
         current_stats = refresh_stats(user_info)
-        print(f"\nOne week of pay submitted. Total weeks paid: {user_info['Times Paid']}\n") 
+        print(f"\nOne week of pay submitted. Total weeks paid: [yellow]{user_info['Times Paid']}[/yellow]\n") 
     elif selection == '6':
         list_commands()
     else:
-        print("\nInvalid command.\n")
+        print("\n[italic red]Invalid command.[/italic red]\n")
+
 
 
