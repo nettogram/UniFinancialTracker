@@ -1,5 +1,7 @@
 # Financial stats calculator, for budgeting
+
 import json
+from datetime import date, timedelta
 from rich import print
 
 savefile = 'saves/savefile.json'
@@ -10,7 +12,11 @@ except FileNotFoundError:
     user_info = {
 
         'Weekly Pay': 450,
-        'Times Paid': 0,
+        'Times Paid': 18,
+        'Dates Of Pay': [
+                [2026, 6, 4],
+                [2026, 6, 11]
+            ],
         'Weekly Tuition Pay': 275,
         'Weekly Family Pay': 175,
         'Semester Cost': 4500,
