@@ -1,7 +1,6 @@
 # Financial stats calculator, for budgeting
 
 import json
-from datetime import date, timedelta
 from rich import print
 from saveload import load_stats, refresh_stats, save_stats
 from datafunctions import list_commands, add_week
@@ -30,7 +29,7 @@ def main():
         elif selection == '4':
             print(f"\nTotal weeks of payment: [green]{current_stats['Times Paid']}[/green]\n") 
         elif selection == '5':
-            add_week()
+            add_week(user_info, current_stats)
             current_stats = refresh_stats(user_info)
         elif selection == '6':
             list_commands()
