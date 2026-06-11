@@ -2,14 +2,14 @@
 
 import json
 from rich import print
-from saveload import load_stats, refresh_stats, save_stats
+from saveload import load_stats, refreshstats, save_stats
 from datafunctions import list_commands, add_week
 
 savefile = 'saves/savefiletest.json' #currently testing new saves feature
 
 def main():
     user_info = load_stats(savefile)
-    current_stats = refresh_stats(user_info)
+    current_stats = refreshstats(user_info)
 
     list_commands()
 
@@ -29,8 +29,7 @@ def main():
         elif selection == '4':
             print(f"\nTotal weeks of payment: [green]{current_stats['Times Paid']}[/green]\n") 
         elif selection == '5':
-            add_week(user_info, current_stats)
-            current_stats = refresh_stats(user_info)
+            current_stats = add_week(user_info, current_stats)
         elif selection == '6':
             list_commands()
         else:

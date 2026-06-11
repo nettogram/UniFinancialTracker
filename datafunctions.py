@@ -2,7 +2,7 @@
 
 from rich import print
 from datetime import date, timedelta
-
+from saveload import refreshstats
 def list_commands():
     print("\nList of commands: \n")
     print("\t'q' -> quit")
@@ -21,19 +21,22 @@ def add_week(user_info, current_stats):
         next_avaliable_pay_day = 7 - (last_pay_date.weekday() - 3)
         next_avaliable_pay_date = date(date_today.year, date_today.month, (last_pay_date.day + next_avaliable_pay_day))
     else: 
-        next_avaliable_pay_day = 4 - last_pay_date.weekday()
+        next_avaliable_pay_day = 3 - last_pay_date.weekday()
         next_avaliable_pay_date = date(date_today.year, date_today.month, (last_pay_date.day + next_avaliable_pay_day))
 
     if date_today.weekday() >= 3:
-        current_next_avaliable_pay_day = next_avaliable_pay_day - date_today.weekday()
+        current_next_avaliable_pay_day = 7 - (date_today.weekday() - 3) 
     else:
-        current_next_avaliable_pay_day = (next_avaliable_pay_day - (date_today.weekday() + 4))
-    
+        current_next_avaliable_pay_day = 3 - date_today.weekday()   
+
     if date_today >= next_avaliable_pay_date:
         user_info['(D) Times Paid'] += 1
         user_info['Dates Of Pay'].append(date_today.isoformat())
-        print(f"\nOne pay entru submitted. Total weeks paid: [yellow]{current_stats['Times Paid']}[/yellow]\n") 
+        current_stats = refreshstats(user_info)
+        print(f"\nOne pay entry submitted. Total weeks paid: [yellow]{current_stats['Times Paid']}[/yellow]\n") 
 
     else: 
         print(f"\n[red]Error: Last pay entry date was {last_pay_date}. You must wait {current_next_avaliable_pay_day} day(s) before the next payment.[/red]\n")
+
+    return current_stats
     

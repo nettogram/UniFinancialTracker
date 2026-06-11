@@ -31,7 +31,7 @@ def load_stats(savefile):
         print("\n[italic green]Save contents loaded.[/italic green]")
         return user_info
 
-def refresh_stats(user_info):
+def refreshstats(user_info):
 
     """ Local data refresh when information is added/changed"""
     total_cost = user_info['Semester Cost'] * user_info['Current Semester Count']
