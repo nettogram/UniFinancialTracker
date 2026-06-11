@@ -7,3 +7,9 @@ requires-python = ">=3.14"
 dependencies = [
     "rich>=15.0.0",
 ]
+
+[project.scripts]
+school-pay = "financialcalc.main:main"
+
+[tool.uv]
+package = true
