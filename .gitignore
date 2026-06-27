@@ -11,6 +11,3 @@ venv
 
 # Save states
 saves/
-
-#zed specific
-.zed/
