@@ -38,7 +38,11 @@ class FinanceTracker(App[None]):
         self.user_info = load_stats(self.savefile)
         self.current_stats = refreshstats(self.user_info)
 
+        self.ovrprogress = self.query_one("#ovrprogress", ProgressBar)
+        self.ovrtotals = self.query_one("#ovrpercent-total", Label)
         self.semprogress = self.query_one("#semprogress", ProgressBar)
+        self.semtotals = self.query_one("#sempercent-total", Label)
+
         self.semprogress.update(
             total=self.user_info["Semester Cost"],
             progress=(
@@ -47,9 +51,17 @@ class FinanceTracker(App[None]):
             ),
         )
 
-        self.totals = self.query_one("#sempercent-total", Label)
-        self.totals.update(
+        self.semtotals.update(
             f"${self.current_stats['Current Semester Paid']} / ${self.user_info['Semester Cost']}"
+        )
+
+        self.ovrprogress.update(
+            total=self.current_stats["Total Cost"],
+            progress=self.current_stats["Tuition Paid"],
+        )
+
+        self.ovrtotals.update(
+            f"${self.current_stats['Tuition Paid']} / ${self.current_stats['Total Cost']}"
         )
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
@@ -62,6 +74,7 @@ class FinanceTracker(App[None]):
 
     def add_pay_entry(self) -> None:
         self.current_stats = refreshstats(self.user_info)
+
         try:
             self.current_stats = add_week(self.user_info, self.current_stats)
         except ValueError:
@@ -69,13 +82,17 @@ class FinanceTracker(App[None]):
                 Label("Invalid entry. Cannot log a standard payment yet")
             )
             return
+
         self.semprogress.update(
             progress=(
                 self.user_info["Semester Cost"]
                 - self.current_stats["Semester Amount Due"]
             )
         )
-        self.totals.update(
+        self.ovrtotals.update(
+            f"${self.current_stats['Tuition Paid']} / ${self.current_stats['Total Cost']}"
+        )
+        self.semtotals.update(
             f"${self.current_stats['Current Semester Paid']} / ${self.user_info['Semester Cost']}"
         )
         self.query_one(VerticalScroll).mount(
