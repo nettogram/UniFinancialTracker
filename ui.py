@@ -1,5 +1,5 @@
 from textual.app import App, ComposeResult
-from textual.containers import Center, VerticalScroll
+from textual.containers import Center, Container, Horizontal, Vertical, VerticalScroll
 from textual.widgets import Button, ContentSwitcher, Footer, Header, Label, ProgressBar
 
 from datafunctions import add_week
@@ -12,27 +12,34 @@ class FinanceTracker(App[None]):
     BINDINGS = [("q", "quit_app", "Save and Quit App")]
 
     def compose(self) -> ComposeResult:
+        semester = Container(id="semester-view")
+        semester.border_title = "Current Semester Progress"
+        overall = Container(id="overall-view")
+        overall.border_title = "Overall University Progress"
         yield Header()
 
-        with ContentSwitcher(initial="semester-view"):
-            with Center(id="semester-view"):
-                yield Label("Current Semester Progress")
-                yield ProgressBar(id="semprogress", show_eta=False)
-                yield Label(id="sempercent-total")
+        with Vertical():
+            with Container(id="top-row"):
+                yield Button("Log Weekly Entry", id="pay-log")
 
-            with Center(id="overall-view"):
-                yield Label("Overall University Progress")
-                yield ProgressBar(id="ovrprogress", show_eta=False)
-                yield Label(id="ovrpercent-total")
+            with Horizontal(id="content-row"):
+                with Center():
+                    with ContentSwitcher(initial="semester-view"):
+                        with semester:
+                            with Center():
+                                yield ProgressBar(id="semprogress", show_eta=False)
+                                yield Label(id="sempercent-total")
 
-        with Center():
-            yield Button("Log Weekly Entry", id="pay-log")
+                        with overall:
+                            with Center():
+                                yield ProgressBar(id="ovrprogress", show_eta=False)
+                                yield Label(id="ovrpercent-total")
 
-        with Center(id="buttons"):
-            yield Button("Semester View", id="semester-view")
-            yield Button("Overall View", id="overall-view")
+            with Horizontal(id="buttons"):
+                yield Button("Semester View", id="semester-button")
+                yield Button("Overall View", id="overall-button")
 
-        yield VerticalScroll(id="history")
+            yield VerticalScroll(id="history")
 
         yield Footer()
 
@@ -40,6 +47,8 @@ class FinanceTracker(App[None]):
         self.savefile = "saves/savefiletest.json"
         self.user_info = load_stats(self.savefile)
         self.current_stats = refreshstats(self.user_info)
+
+        self.query_one("#pay-log", Button).blur()
 
         self.ovrprogress = self.query_one("#ovrprogress", ProgressBar)
         self.ovrtotals = self.query_one("#ovrpercent-total", Label)
@@ -68,9 +77,9 @@ class FinanceTracker(App[None]):
         )
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
-        if event.button.id == "overall-view":
+        if event.button.id == "overall-button":
             self.query_one(ContentSwitcher).current = "overall-view"
-        elif event.button.id == "semester-view":
+        elif event.button.id == "semester-button":
             self.query_one(ContentSwitcher).current = "semester-view"
         elif event.button.id == "pay-log":
             self.add_pay_entry()

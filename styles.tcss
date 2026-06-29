@@ -1,20 +1,58 @@
-Container {
-    overflow: hidden hidden;
-    height: auto;
+Screen {
+    background: black;
 }
 
 Center {
     margin-top: 1;
     margin-bottom: 1;
-    layout: horizontal;
 }
 
-ProgressBar {
-    padding-left: 3;
+Container {
+    width: 60;
+    height: auto;
 }
 
-Input {
-    width: 16;
+#top-row {
+    width: 100%;
+    height: auto;
+    align: left top;
+}
+
+#content-row {
+    height: auto;
+    width: 100%;
+}
+
+#buttons {
+    width: 100%;
+    height: auto;
+}
+
+#semester-view {
+    border: round green;
+}
+
+#overall-view {
+    border: round green;
+}
+
+Button {
+    border:  round green;
+    background: black;
+}
+
+Button:focus {
+    color: red;
+    border: round red;
+    text-style: bold;
+}
+
+#semester-button {
+    width: 1fr;
+}
+
+#overall-button {
+    width: 1fr;
 }
 
 VerticalScroll {
