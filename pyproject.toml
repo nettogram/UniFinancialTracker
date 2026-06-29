@@ -1,5 +1,5 @@
 [project]
-name = "financialcalc"
+name = "UniFinancialTracker"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -10,7 +10,10 @@ dependencies = [
 ]
 
 [project.scripts]
-school-pay = "financialcalc.main:main"
+unifinance = "ui:main"
+
+[tool.setuptools]
+py-modules = ["ui", "saveload", "datafunctions"]
 
 [tool.uv]
 package = true
