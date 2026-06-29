@@ -1,14 +1,15 @@
 from textual.app import App, ComposeResult
 from textual.containers import Center, VerticalScroll
-from textual.widgets import Button, ContentSwitcher, Header, Label, ProgressBar
+from textual.widgets import Button, ContentSwitcher, Footer, Header, Label, ProgressBar
 
 from datafunctions import add_week
-from saveload import load_stats, refreshstats
+from saveload import load_stats, refreshstats, save_stats
 
 
 class FinanceTracker(App[None]):
     CSS_PATH = "styles.tcss"
     TITLE = "Uni Finance Tracker"
+    BINDINGS = [("q", "quit_app", "Save and Quit App")]
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -32,6 +33,8 @@ class FinanceTracker(App[None]):
             yield Button("Overall View", id="overall-view")
 
         yield VerticalScroll(id="history")
+
+        yield Footer()
 
     def on_mount(self) -> None:
         self.savefile = "saves/savefiletest.json"
@@ -100,6 +103,10 @@ class FinanceTracker(App[None]):
                 f"Logged another week into overall payments. Total Number of weeks paid: {self.current_stats['Times Paid']}"
             )
         )
+
+    def action_quit_app(self) -> None:
+        save_stats(self.savefile, self.user_info)
+        self.exit()
 
 
 if __name__ == "__main__":
