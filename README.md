@@ -17,12 +17,6 @@ A terminal-based finance tracker built with **Python** and **Textual** to help m
 
 ---
 
-## Screenshots
-
-> *(Add screenshots here as the project evolves.)*
-
----
-
 ## Installation
 
 Clone the repository:
