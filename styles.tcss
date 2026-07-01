@@ -21,12 +21,25 @@ ListView {
     background: black;
 }
 
-#logo {
+RichLog {
+    background: black;
+}
+
+#logocontainer {
     color: green;
-    align: center top;
     border: round green;
     background: black;
+    border-subtitle-align: right;
+}
+
+#logo {
+    color: green;
+    text-style: bold;
     text-align: center;
+}
+
+#historylog {
+    background: black;
 }
 
 #top-row {

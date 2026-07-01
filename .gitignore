@@ -16,3 +16,6 @@ saves/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# zed specific
+.zed

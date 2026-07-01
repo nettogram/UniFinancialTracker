@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from rich.text import Text
 from textual.app import App, ComposeResult
 from textual.containers import Center, Container, Horizontal, Vertical, VerticalScroll
 from textual.widgets import (
@@ -12,6 +13,7 @@ from textual.widgets import (
     ListItem,
     ListView,
     ProgressBar,
+    RichLog,
     Static,
 )
 
@@ -36,6 +38,9 @@ class FinanceTracker(App[None]):
         semester.border_title = "Current Semester Progress"
         overall = Container(id="overall-view")
         overall.border_title = "Overall University Progress"
+        logfield = Horizontal(id="logocontainer")
+        logfield.border_title = "Sacramento State - ECS"
+        logfield.border_subtitle = "History Log"
         yield Header()
 
         with Vertical():
@@ -69,13 +74,12 @@ class FinanceTracker(App[None]):
                 yield Button("Overall View", id="overall-button")
 
             # Fourth Stack
-            with Container(id="logocontainer"):
+            with logfield:
                 with Center():
                     LOGO_FILE = BASE_DIR / "assets" / "sacstatelogo.txt"
                     yield Static(LOGO_FILE.read_text(), id="logo")
-
-            # Sub-stack for logging. May change later to make cleaner
-            yield VerticalScroll(id="history")
+                with VerticalScroll():
+                    yield RichLog(id="historylog")
 
         yield Footer()
 
@@ -98,6 +102,9 @@ class FinanceTracker(App[None]):
         # For additional stats
         self.payweeks = self.query_one("#payweeks", Label)
         self.semcount = self.query_one("#semcount", Label)
+
+        # For the log
+        self.historylog = self.query_one("#historylog", RichLog)
 
         # to update stats on startup
         self.update_stats()
@@ -148,8 +155,10 @@ class FinanceTracker(App[None]):
         try:
             self.current_stats = add_week(self.user_info, self.current_stats)
         except ValueError:
-            self.query_one(VerticalScroll).mount(
-                Label("Invalid entry. Cannot log a standard payment yet")
+            self.historylog.write(
+                Text.from_markup(
+                    "[red]Invalid entry. Cannot log a standard payment yet[/red]"
+                )
             )
             return
 
@@ -157,9 +166,9 @@ class FinanceTracker(App[None]):
         self.update_stats()
 
         # Adds log and also Total # of weeks. Will make a dropdown for stats in the future
-        self.query_one(VerticalScroll).mount(
-            Label(
-                f"Logged another week into overall payments. Total Number of weeks paid: {self.current_stats['Times Paid']}"
+        self.historylog.write(
+            Text.from_markup(
+                f"[green]Logged another week into overall payments. Total Number of weeks paid:[/green][yellow] {self.current_stats['Times Paid']}[/yellow]"
             )
         )
 
