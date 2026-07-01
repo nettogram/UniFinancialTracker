@@ -12,6 +12,7 @@ from textual.widgets import (
     ListItem,
     ListView,
     ProgressBar,
+    Static,
 )
 
 from datafunctions import add_week
@@ -66,6 +67,12 @@ class FinanceTracker(App[None]):
             with Horizontal(id="buttons"):
                 yield Button("Semester View", id="semester-button")
                 yield Button("Overall View", id="overall-button")
+
+            # Fourth Stack
+            with Container(id="logocontainer"):
+                with Center():
+                    LOGO_FILE = BASE_DIR / "assets" / "sacstatelogo.txt"
+                    yield Static(LOGO_FILE.read_text(), id="logo")
 
             # Sub-stack for logging. May change later to make cleaner
             yield VerticalScroll(id="history")

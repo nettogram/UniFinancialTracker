@@ -11,3 +11,8 @@ venv
 
 # Save states
 saves/
+
+# random mac os artifacts
+.DS_Store
+.AppleDouble
+.LSOverride

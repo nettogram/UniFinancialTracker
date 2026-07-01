@@ -21,6 +21,14 @@ ListView {
     background: black;
 }
 
+#logo {
+    color: green;
+    align: center top;
+    border: round green;
+    background: black;
+    text-align: center;
+}
+
 #top-row {
     width: 100%;
     height: auto;
