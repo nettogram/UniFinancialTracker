@@ -92,9 +92,14 @@ class FinanceTracker(App[None]):
         self.payweeks = self.query_one("#payweeks", Label)
         self.semcount = self.query_one("#semcount", Label)
 
-        # Immediate update on mount for semester & overall views
+        # to update stats on startup
+        self.update_stats()
+
+    def update_stats(self) -> None:
+        # Updates values to be shown on screen.
+        # Section for Semester:
         self.semprogress.update(
-            total=self.user_info["Semester Cost"],
+            total=(self.user_info["Semester Cost"]),
             progress=(
                 self.user_info["Semester Cost"]
                 - self.current_stats["Semester Amount Due"]
@@ -103,6 +108,7 @@ class FinanceTracker(App[None]):
         self.semtotals.update(
             f"${self.current_stats['Current Semester Paid']} / ${self.user_info['Semester Cost']}"
         )
+        # Section for Overall:
         self.ovrprogress.update(
             total=self.current_stats["Total Cost"],
             progress=self.current_stats["Tuition Paid"],
@@ -110,7 +116,6 @@ class FinanceTracker(App[None]):
         self.ovrtotals.update(
             f"${self.current_stats['Tuition Paid']} / ${self.current_stats['Total Cost']}"
         )
-
         # Immediate update on mount for additional stats
         self.payweeks.update(f"Weeks Paid: {self.current_stats['Times Paid']}")
         self.semcount.update(
@@ -141,25 +146,8 @@ class FinanceTracker(App[None]):
             )
             return
 
-        # Updates values to be shown on screen.
-        # Section for Semester:
-        self.semprogress.update(
-            progress=(
-                self.user_info["Semester Cost"]
-                - self.current_stats["Semester Amount Due"]
-            )
-        )
-        self.semtotals.update(
-            f"${self.current_stats['Current Semester Paid']} / ${self.user_info['Semester Cost']}"
-        )
-        # Section for Overall:
-        self.ovrprogress.update(
-            total=self.current_stats["Total Cost"],
-            progress=self.current_stats["Tuition Paid"],
-        )
-        self.ovrtotals.update(
-            f"${self.current_stats['Tuition Paid']} / ${self.current_stats['Total Cost']}"
-        )
+        # Updates stats on call of add_pay_entry()
+        self.update_stats()
 
         # Adds log and also Total # of weeks. Will make a dropdown for stats in the future
         self.query_one(VerticalScroll).mount(

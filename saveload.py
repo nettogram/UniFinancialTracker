@@ -1,5 +1,4 @@
 # Contains functions for save and load states
-
 import json
 
 from rich import print

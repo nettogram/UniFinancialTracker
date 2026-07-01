@@ -8,8 +8,17 @@ Center {
 }
 
 Container {
-    width: 60;
+    width: auto;
     height: auto;
+}
+
+Collapsible {
+    border: round green;
+    background: black;
+}
+
+ListView {
+    background: black;
 }
 
 #top-row {
