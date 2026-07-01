@@ -1,9 +1,24 @@
+from pathlib import Path
+
 from textual.app import App, ComposeResult
 from textual.containers import Center, Container, Horizontal, Vertical, VerticalScroll
-from textual.widgets import Button, ContentSwitcher, Footer, Header, Label, ProgressBar
+from textual.widgets import (
+    Button,
+    Collapsible,
+    ContentSwitcher,
+    Footer,
+    Header,
+    Label,
+    ListItem,
+    ListView,
+    ProgressBar,
+)
 
 from datafunctions import add_week
 from saveload import load_stats, refreshstats, save_stats
+
+# Base directory for the position of current file
+BASE_DIR = Path(__file__).resolve().parent
 
 
 # App that controls the entire finance tracker program
@@ -35,11 +50,17 @@ class FinanceTracker(App[None]):
                             with Center():
                                 yield ProgressBar(id="semprogress", show_eta=False)
                                 yield Label(id="sempercent-total")
-
                         with overall:
                             with Center():
                                 yield ProgressBar(id="ovrprogress", show_eta=False)
                                 yield Label(id="ovrpercent-total")
+
+                with Center():
+                    with Collapsible(title="Additional Stats", id="extrastats"):
+                        yield ListView(
+                            ListItem(Label("Weeks Paid", id="payweeks")),
+                            ListItem(Label("Semester Counter", id="semcount")),
+                        )
 
             # Third Stack
             with Horizontal(id="buttons"):
@@ -54,7 +75,7 @@ class FinanceTracker(App[None]):
     # On mount is the actions that are performed as soon as the application starts
     def on_mount(self) -> None:
         # Three main "globals". These control the backend
-        self.savefile = "saves/savefiletest.json"
+        self.savefile = BASE_DIR / "saves" / "savefiletest.json"
         self.user_info = load_stats(self.savefile)
         self.current_stats = refreshstats(self.user_info)
 
@@ -66,6 +87,10 @@ class FinanceTracker(App[None]):
         self.ovrtotals = self.query_one("#ovrpercent-total", Label)
         self.semprogress = self.query_one("#semprogress", ProgressBar)
         self.semtotals = self.query_one("#sempercent-total", Label)
+
+        # For additional stats
+        self.payweeks = self.query_one("#payweeks", Label)
+        self.semcount = self.query_one("#semcount", Label)
 
         # Immediate update on mount for semester & overall views
         self.semprogress.update(
@@ -84,6 +109,12 @@ class FinanceTracker(App[None]):
         )
         self.ovrtotals.update(
             f"${self.current_stats['Tuition Paid']} / ${self.current_stats['Total Cost']}"
+        )
+
+        # Immediate update on mount for additional stats
+        self.payweeks.update(f"Weeks Paid: {self.current_stats['Times Paid']}")
+        self.semcount.update(
+            f"Semesters Paid for: {self.current_stats['Semester Counter']}"
         )
 
     # Controls all button presses

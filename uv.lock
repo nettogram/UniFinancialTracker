@@ -15,29 +15,6 @@ wheels = [
 ]
 
 [[package]]
-name = "financialcalc"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "rich" },
-    { name = "textual" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "basedpyright" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "rich", specifier = ">=15.0.0" },
-    { name = "textual", specifier = ">=8.2.7" },
-]
-
-[package.metadata.requires-dev]
-dev = [{ name = "basedpyright", specifier = ">=1.39.8" }]
-
-[[package]]
 name = "linkify-it-py"
 version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -168,3 +145,26 @@ sdist = { url = "https://files.pythonhosted.org/packages/78/67/9a363818028526e2d
 wheels = [
     { url = "https://files.pythonhosted.org/packages/61/73/d21edf5b204d1467e06500080a50f79d49ef2b997c79123a536d4a17d97c/uc_micro_py-2.0.0-py3-none-any.whl", hash = "sha256:3603a3859af53e5a39bc7677713c78ea6589ff188d70f4fee165db88e22b242c", size = 6383, upload-time = "2026-03-01T06:31:26.257Z" },
 ]
+
+[[package]]
+name = "unifinancialtracker"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "rich" },
+    { name = "textual" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "basedpyright" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "rich", specifier = ">=15.0.0" },
+    { name = "textual", specifier = ">=8.2.7" },
+]
+
+[package.metadata.requires-dev]
+dev = [{ name = "basedpyright", specifier = ">=1.39.8" }]
