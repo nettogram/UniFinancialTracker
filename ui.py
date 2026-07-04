@@ -157,20 +157,27 @@ class FinanceTracker(App[None]):
         except ValueError:
             self.historylog.write(
                 Text.from_markup(
-                    "[red]Invalid entry. Cannot log a standard payment yet[/red]"
+                    "[red] ERROR with adding entry. Use the CLI Debugger for diagnostics[/red]"
                 )
             )
             return
+        else:
+            if self.current_stats["Entry Status"] == "FAIL":
+                self.historylog.write(
+                    Text.from_markup(
+                        "[red]Invalid entry. Cannot log a standard payment yet[/red]"
+                    )
+                )
+            else:
+                # Updates stats on call of add_pay_entry()
+                self.update_stats()
 
-        # Updates stats on call of add_pay_entry()
-        self.update_stats()
-
-        # Adds log and also Total # of weeks. Will make a dropdown for stats in the future
-        self.historylog.write(
-            Text.from_markup(
-                f"[green]Logged another week into overall payments. Total Number of weeks paid:[/green][yellow] {self.current_stats['Times Paid']}[/yellow]"
-            )
-        )
+                # Adds log and also Total # of weeks. Will make a dropdown for stats in the future
+                self.historylog.write(
+                    Text.from_markup(
+                        f"[green]Logged another week into overall payments. Total Number of weeks paid:[/green][yellow] {self.current_stats['Times Paid']}[/yellow]"
+                    )
+                )
 
     # When 'q' is pressed, everything saves and the application is exited
     def action_quit_app(self) -> None:
