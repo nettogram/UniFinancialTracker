@@ -36,6 +36,8 @@ def load_stats(savefile):
 
 def refreshstats(user_info):
     """Local data refresh when information is added/changed"""
+
+    # local calculations to change data
     total_cost = user_info["Semester Cost"] * user_info["Current Semester Count"]
     times_paid = user_info["(ND) Times Paid"] + user_info["(D) Times Paid"]
     tuition_paid = user_info["Weekly Tuition Pay"] * times_paid
@@ -47,6 +49,8 @@ def refreshstats(user_info):
         user_info["Semester Cost"] * (semester_counter + 1)
     ) - tuition_paid
     current_semester_paid = user_info["Semester Cost"] - semester_amount_due
+
+    # takes local calculations and edits information local to app runtime
     refreshed_stats = {
         "Total Cost": total_cost,
         "Tuition Paid": tuition_paid,
