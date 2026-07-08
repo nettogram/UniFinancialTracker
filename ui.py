@@ -87,7 +87,7 @@ class FinanceTracker(App[None]):
     # On mount is the actions that are performed as soon as the application starts
     def on_mount(self) -> None:
         # Three main "globals". These control the backend
-        self.savefile = BASE_DIR / "saves" / "savefiletest.json"
+        self.savefile = BASE_DIR / "saves" / "savefile.json"
         self.user_info = load_stats(self.savefile)
         self.current_stats = refreshstats(self.user_info)
 
