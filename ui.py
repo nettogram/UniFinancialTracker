@@ -140,7 +140,7 @@ class FinanceTracker(App[None]):
             f"Semesters Paid for: {self.current_stats['Semester Counter']}"
         )
         self.paydate.update(f"Last Pay Date: {self.user_info['Dates Of Pay'][-1]}")
-        self.weeksleft.update(f"Weeks/pay left for Semester: ~{self.current_stats['Semester Pay Remaining']} weeks/pay")
+        self.weeksleft.update(f"Weeks/pay left for Semester: ~{self.current_stats['Semester Pay Remaining']} weeks/pay remaining")
 
     # Controls all button presses
     def on_button_pressed(self, event: Button.Pressed) -> None:
