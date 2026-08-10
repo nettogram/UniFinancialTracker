@@ -1,6 +1,6 @@
 # Uni Financial Tracker
 <p align="center">
-    <img src="images/appdemo.png" width="700">
+    <img src="images/appdemo.jpg" width="700">
 </p>
 
 A terminal-based finance tracker built with **Python** and **Textual** to help monitor university tuition progress throughout a degree. The application focuses on a clean, game-inspired terminal interface while providing persistent financial tracking through JSON save files.
