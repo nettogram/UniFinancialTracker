@@ -49,6 +49,7 @@ def refreshstats(user_info):
         user_info["Semester Cost"] * (semester_counter + 1)
     ) - tuition_paid
     current_semester_paid = user_info["Semester Cost"] - semester_amount_due
+    semester_pay_remaining = round(semester_amount_due / user_info["Weekly Tuition Pay"])
 
     # takes local calculations and edits information local to app runtime
     refreshed_stats = {
@@ -59,6 +60,7 @@ def refreshstats(user_info):
         "Total Amount Due": total_amount_due,
         "Times Paid": times_paid,
         "Current Semester Paid": current_semester_paid,
+        "Semester Pay Remaining": semester_pay_remaining,
     }
 
     return refreshed_stats

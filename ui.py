@@ -67,6 +67,7 @@ class FinanceTracker(App[None]):
                             ListItem(Label("Weeks Paid", id="payweeks")),
                             ListItem(Label("Semester Counter", id="semcount")),
                             ListItem(Label("Last Pay Entry:", id="paydate")),
+                            ListItem(Label("Weeks/pay left for Semester:", id="weeksleft"))
                         )
 
             # Third Stack
@@ -104,6 +105,7 @@ class FinanceTracker(App[None]):
         self.payweeks = self.query_one("#payweeks", Label)
         self.semcount = self.query_one("#semcount", Label)
         self.paydate = self.query_one("#paydate", Label)
+        self.weeksleft = self.query_one("#weeksleft", Label)
 
         # For the log
         self.historylog = self.query_one("#historylog", RichLog)
@@ -138,6 +140,7 @@ class FinanceTracker(App[None]):
             f"Semesters Paid for: {self.current_stats['Semester Counter']}"
         )
         self.paydate.update(f"Last Pay Date: {self.user_info['Dates Of Pay'][-1]}")
+        self.weeksleft.update(f"Weeks/pay left for Semester: ~{self.current_stats['Semester Pay Remaining']} weeks/pay")
 
     # Controls all button presses
     def on_button_pressed(self, event: Button.Pressed) -> None:
